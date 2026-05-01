@@ -1,0 +1,20 @@
+{
+  "name": "reservation-aokas-backend",
+  "version": "1.0.0",
+  "description": "Backend pour la location appartement Aokas",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.1",
+    "express": "^4.18.2",
+    "mongoose": "^9.6.1",
+    "nodemailer": "^6.9.8"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}

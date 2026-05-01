@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Location Appartement Aokas – Béjaïa | Réservation en ligne</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    :root {
+      --primary:      #0369a1;
+      --primary-dark: #075985;
+      --accent:       #f59e0b;
+      --text:         #1e293b;
+      --muted:        #64748b;
+      --light:        #f0f9ff;
+      --border:       #e2e8f0;
+      --success:      #10b981;
+      --error:        #ef4444;
+      --wa:           #25D366;
+      --radius:       14px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      background: #f8fafc;
+      line-height: 1.6;
+      padding-bottom: 88px; /* espace barre fixe mobile */
+    }
+
+    /* ═══════════ HEADER ═══════════ */
+    header {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 400;
+      box-shadow: 0 1px 8px rgba(0,0,0,.06);
+    }
+    .header-inner {
+      max-width: 1060px; margin: auto;
+      padding: 13px 16px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { font-size: 1rem; font-weight: 800; color: var(--primary); line-height: 1.2; }
+    .logo-sub { font-weight: 400; color: var(--muted); font-size: .8rem; display: block; }
+    .badge-dispo {
+      background: var(--success); color: white;
+      font-size: .72rem; font-weight: 700;
+      padding: 5px 12px; border-radius: 99px;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .badge-dot { width: 6px; height: 6px; background: white; border-radius: 50%; animation: pulse 1.8s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+    /* ═══════════ GALERIE HERO ═══════════ */
+    .gallery-hero { position: relative; background: #0f172a; overflow: hidden; }
+
+    .hero-main-img {
+      width: 100%; height: 270px;
+      object-fit: cover; display: block; cursor: pointer;
+      transition: transform .3s;
+    }
+    .hero-main-img:hover { transform: scale(1.01); }
+    @media (min-width: 600px) { .hero-main-img { height: 420px; } }
+
+    /* Placeholder si image manquante */
+    .hero-main-img.no-img {
+      height: 270px; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #075985 0%, #0ea5e9 100%);
+      font-size: 4rem; cursor: default;
+    }
+
+    .gallery-gradient {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,.7) 0%, transparent 100%);
+      padding: 20px 16px 56px;
+      pointer-events: none;
+    }
+    .gallery-gradient h1 { color: white; font-size: 1.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 4px; }
+    .gallery-gradient .sub { color: rgba(255,255,255,.85); font-size: .85rem; }
+
+    .btn-all-photos {
+      position: absolute; bottom: 14px; right: 14px;
+      background: white; color: var(--text);
+      border: none; padding: 9px 16px; border-radius: 10px;
+      font-size: .82rem; font-weight: 700; cursor: pointer;
+      display: flex; align-items: center; gap: 6px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.25);
+      transition: transform .15s;
+    }
+    .btn-all-photos:active { transform: scale(.96); }
+
+    /* Miniatures défilantes */
+    .thumbs-row {
+      display: flex; gap: 3px;
+      overflow-x: auto; background: #0f172a;
+      padding-bottom: 3px;
+      scrollbar-width: none;
+    }
+    .thumbs-row::-webkit-scrollbar { display: none; }
+    .thumb-item {
+      width: 90px; height: 64px; flex-shrink: 0;
+      object-fit: cover; cursor: pointer;
+      opacity: .6; transition: opacity .2s;
+      border-bottom: 3px solid transparent;
+    }
+    .thumb-item:hover, .thumb-item.active {
+      opacity: 1;
+      border-bottom-color: var(--accent);
+    }
+
+    /* ═══════════ RATING ═══════════ */
+    .rating-bar {
+      background: white; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      gap: 6px; padding: 10px 16px;
+      font-size: .87rem; color: var(--muted);
+    }
+    .stars { color: var(--accent); }
+    .rating-num { font-weight: 800; color: var(--text); }
+
+    /* ═══════════ LAYOUT DESKTOP ═══════════ */
+    .main-wrap {
+      max-width: 1060px; margin: 0 auto; padding: 0;
+    }
+    @media (min-width: 780px) {
+      .main-wrap {
+        margin: -28px auto 56px;
+        padding: 0 20px;
+        display: grid;
+        grid-template-columns: 1fr 360px;
+        gap: 24px;
+        align-items: start;
+      }
+      .col-right { position: sticky; top: 80px; }
+      body { padding-bottom: 0; }
+      .bottom-bar { display: none; }
+    }
+
+    /* ═══════════ BLOCS SECTION ═══════════ */
+    .bloc {
+      background: white;
+      margin-bottom: 8px;
+      padding: 20px 16px;
+    }
+    @media (min-width: 780px) {
+      .bloc {
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        margin-bottom: 16px;
+        padding: 22px;
+        box-shadow: 0 1px 6px rgba(0,0,0,.04);
+      }
+    }
+    .bloc-title {
+      font-size: 1rem; font-weight: 700;
+      margin-bottom: 16px;
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    /* ── Faits clés ── */
+    .facts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+    .fact {
+      background: var(--light); border: 1px solid #bae6fd;
+      border-radius: 12px; padding: 14px; text-align: center;
+    }
+    .fact-ico { font-size: 1.6rem; margin-bottom: 4px; }
+    .fact-val { font-size: 1rem; font-weight: 800; color: var(--primary); }
+    .fact-lbl { font-size: .74rem; color: var(--muted); margin-top: 1px; }
+
+    .terrace-card {
+      background: linear-gradient(135deg, #0ea5e9, #0369a1);
+      color: white; border-radius: var(--radius);
+      padding: 16px; display: flex; align-items: center; gap: 14px;
+    }
+    .terrace-card .ico { font-size: 2rem; flex-shrink: 0; }
+    .terrace-card h3 { font-size: .95rem; font-weight: 700; margin-bottom: 2px; }
+    .terrace-card p  { font-size: .82rem; opacity: .88; }
+
+    /* ── Galerie grille ── */
+    .photos-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 4px;
+    }
+    @media (min-width: 480px) { .photos-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .photo-cell {
+      position: relative;
+      aspect-ratio: 1;
+      overflow: hidden;
+      border-radius: 6px;
+      background: #f1f5f9;
+      cursor: pointer;
+    }
+    .photo-cell img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .3s, opacity .2s;
+    }
+    .photo-cell:hover img { transform: scale(1.06); opacity: .9; }
+
+    /* Placeholder quand image absente */
+    .photo-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 6px; text-align: center; padding: 8px;
+      color: var(--muted);
+    }
+    .photo-placeholder .ph-ico { font-size: 2rem; }
+    .photo-placeholder .ph-txt { font-size: .7rem; line-height: 1.3; }
+
+    .photo-num {
+      position: absolute; top: 6px; left: 6px;
+      background: rgba(0,0,0,.45); color: white;
+      font-size: .7rem; font-weight: 700;
+      padding: 2px 7px; border-radius: 99px;
+    }
+
+    /* ── Équipements ── */
+    .equip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .equip-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 12px;
+      background: #f8fafc; border: 1px solid var(--border);
+      border-radius: 10px; font-size: .875rem;
+    }
+    .equip-item .ico { font-size: 1.2rem; flex-shrink: 0; }
+
+    /* ── Tarifs ── */
+    .tarifs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+    .tarif {
+      border-radius: var(--radius); padding: 18px 14px; text-align: center;
+    }
+    .tarif.haute { background: linear-gradient(135deg, #b45309, #d97706); color: white; }
+    .tarif.basse { background: linear-gradient(135deg, #075985, #0369a1); color: white; }
+    .tarif-label  { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; opacity: .8; margin-bottom: 4px; }
+    .tarif-months { font-size: .78rem; opacity: .75; margin-bottom: 8px; }
+    .tarif-price  { font-size: 1.75rem; font-weight: 900; line-height: 1; }
+    .tarif-unit   { font-size: .75rem; opacity: .75; margin-top: 4px; }
+    .tarif-note {
+      background: #fef9c3; border: 1px solid #fde68a;
+      border-radius: 10px; padding: 10px 14px;
+      font-size: .82rem; color: #92400e;
+      display: flex; gap: 8px;
+    }
+
+    /* ── Règles ── */
+    .rules-list { display: flex; flex-direction: column; }
+    .rule {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 12px 0; border-bottom: 1px solid var(--border);
+      font-size: .9rem;
+    }
+    .rule:last-child { border-bottom: none; }
+    .rule-ico { font-size: 1rem; flex-shrink: 0; margin-top: 2px; }
+
+    /* ── Localisation ── */
+    .map-placeholder {
+      background: linear-gradient(135deg, #dbeafe, #bae6fd);
+      border: 1px solid #93c5fd; border-radius: var(--radius);
+      padding: 24px 16px; text-align: center; color: var(--primary);
+      margin-bottom: 14px;
+    }
+    .map-placeholder .map-ico { font-size: 2.5rem; margin-bottom: 6px; }
+    .map-placeholder h3 { font-size: 1rem; font-weight: 800; margin-bottom: 4px; }
+    .map-placeholder p { font-size: .82rem; color: #2563eb; }
+
+    .nearby-list { display: flex; flex-direction: column; gap: 8px; }
+    .nearby-item {
+      display: flex; align-items: center; gap: 10px;
+      background: #f8fafc; border: 1px solid var(--border);
+      border-radius: 10px; padding: 11px 14px; font-size: .875rem;
+    }
+
+    /* ═══════════ FORMULAIRE ═══════════ */
+    .form-row { margin-bottom: 15px; }
+    .form-label {
+      display: block; font-size: .78rem; font-weight: 700;
+      color: var(--muted); text-transform: uppercase;
+      letter-spacing: .5px; margin-bottom: 6px;
+    }
+    .two-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 14px 15px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 1rem; /* empêche zoom iOS */
+      font-family: inherit;
+      color: var(--text);
+      background: white;
+      outline: none;
+      -webkit-appearance: none; appearance: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(3,105,161,.12);
+    }
+    input.err, select.err { border-color: var(--error); }
+    textarea { resize: none; }
+
+    .select-wrap { position: relative; }
+    .select-wrap::after {
+      content: '▾'; position: absolute;
+      right: 14px; top: 50%; transform: translateY(-50%);
+      pointer-events: none; color: var(--muted);
+    }
+
+    .err-msg {
+      font-size: .8rem; color: var(--error);
+      margin-top: 4px; display: none;
+    }
+    .err-msg.show { display: block; }
+
+    /* ── Calendrier disponibilités ── */
+    .dispo-cal-wrap {
+      background: white; border: 1.5px solid var(--border);
+      border-radius: 14px; padding: 14px; margin-bottom: 16px;
+    }
+    .dispo-cal-hdr {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;
+    }
+    .dispo-cal-titre { font-size: .9rem; font-weight: 800; color: var(--dark); }
+    .dispo-cal-nav {
+      background: var(--light); border: 1px solid var(--border);
+      border-radius: 8px; padding: 4px 12px; cursor: pointer; font-size: .9rem;
+    }
+    .dispo-cal-days-names {
+      display: grid; grid-template-columns: repeat(7,1fr);
+      text-align: center; font-size: .7rem; font-weight: 700;
+      color: var(--muted); margin-bottom: 4px;
+    }
+    .dispo-cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 2px; }
+    .dispo-day {
+      aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+      border-radius: 8px; font-size: .78rem; font-weight: 600;
+      cursor: pointer; transition: all .15s; border: 1.5px solid transparent;
+    }
+    .dispo-day.vide { pointer-events: none; }
+    .dispo-day.passe { color: #cbd5e1; pointer-events: none; }
+    .dispo-day.libre:hover { background: #e0f2fe; border-color: var(--primary); }
+    .dispo-day.pris { background: #fee2e2; color: #991b1b; pointer-events: none; text-decoration: line-through; font-size: .7rem; }
+    .dispo-day.depart-ok { background: #fef9c3; color: #78350f; }
+    .dispo-day.sel-start, .dispo-day.sel-end { background: var(--primary); color: white; border-color: var(--dark); }
+    .dispo-day.sel-range { background: #bae6fd; color: var(--dark); }
+    .dispo-day.today { border-color: var(--primary); font-weight: 800; }
+    .dispo-cal-legende {
+      display: flex; gap: 12px; margin-top: 10px; flex-wrap: wrap; font-size: .72rem; color: var(--muted);
+    }
+    .dispo-cal-legende span { display: flex; align-items: center; gap: 4px; }
+    .dleg { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+    .dleg.libre { background: #e0f2fe; border: 1px solid var(--primary); }
+    .dleg.pris  { background: #fee2e2; }
+    .dleg.sel   { background: var(--primary); }
+    .dispo-sel-info {
+      font-size: .82rem; color: var(--primary); font-weight: 600;
+      text-align: center; margin-top: 8px; min-height: 18px;
+    }
+
+    /* Récap prix */
+    .recap {
+      background: var(--light); border: 1.5px solid #bae6fd;
+      border-radius: 12px; padding: 14px 16px;
+      margin-bottom: 16px; display: none;
+    }
+    .recap.show { display: block; }
+    .recap-saison {
+      font-size: .78rem; color: var(--primary);
+      background: #dbeafe; border-radius: 6px;
+      padding: 4px 10px; margin-bottom: 10px;
+      text-align: center; font-weight: 600;
+    }
+    .recap-row { display: flex; justify-content: space-between; font-size: .9rem; padding: 4px 0; color: var(--muted); }
+    .recap-row.total {
+      border-top: 1px solid #bae6fd; margin-top: 8px; padding-top: 10px;
+      font-weight: 800; font-size: 1.05rem; color: var(--primary);
+    }
+
+    /* Bouton submit */
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white; border: none;
+      padding: 16px; border-radius: 12px;
+      font-size: 1.05rem; font-weight: 700;
+      cursor: pointer; min-height: 54px;
+      transition: transform .15s, box-shadow .15s;
+      letter-spacing: .2px;
+    }
+    .btn-submit:active { transform: scale(.98); }
+    .btn-submit:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+    /* WhatsApp direct */
+    .btn-wa {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; margin-top: 10px;
+      background: var(--wa); color: white;
+      border: none; padding: 14px; border-radius: 12px;
+      font-size: 1rem; font-weight: 700;
+      cursor: pointer; min-height: 52px;
+      text-decoration: none;
+      transition: transform .15s, background .15s;
+    }
+    .btn-wa:hover { background: #1ebe57; }
+    .btn-wa:active { transform: scale(.98); }
+    .btn-wa svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+    .divider-or {
+      display: flex; align-items: center; gap: 10px;
+      color: var(--muted); font-size: .82rem; margin: 12px 0;
+    }
+    .divider-or::before, .divider-or::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+
+    .secure-note {
+      display: flex; align-items: center; justify-content: center;
+      gap: 5px; font-size: .78rem; color: var(--muted); margin-top: 10px;
+    }
+
+    /* ═══════════ BARRE FIXE BAS (mobile) ═══════════ */
+    .bottom-bar {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 300;
+      background: white; border-top: 1px solid var(--border);
+      padding: 10px 16px;
+      display: flex; align-items: center; gap: 12px;
+      box-shadow: 0 -4px 20px rgba(0,0,0,.1);
+    }
+    .bar-price { flex: 1; }
+    .bar-price .amount { font-size: 1.1rem; font-weight: 800; }
+    .bar-price .lbl    { font-size: .73rem; color: var(--muted); }
+    .btn-bar-book {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white; border: none;
+      padding: 14px 22px; border-radius: 12px;
+      font-size: .95rem; font-weight: 700;
+      cursor: pointer; white-space: nowrap;
+      min-height: 50px; flex-shrink: 0;
+    }
+    .btn-bar-book:active { transform: scale(.97); }
+
+    /* ═══════════ BOUTON FLOTTANT WHATSAPP ═══════════ */
+    .fab-wa {
+      position: fixed; right: 16px; bottom: 100px; z-index: 350;
+      background: var(--wa); color: white;
+      border: none; border-radius: 99px;
+      padding: 12px 18px;
+      display: flex; align-items: center; gap: 8px;
+      font-size: .85rem; font-weight: 700;
+      cursor: pointer; text-decoration: none;
+      box-shadow: 0 4px 18px rgba(37,211,102,.4);
+      transition: transform .2s, box-shadow .2s;
+      animation: fabIn .4s .5s both;
+    }
+    @keyframes fabIn { from { transform: scale(0); opacity:0; } to { transform: scale(1); opacity:1; } }
+    .fab-wa:hover { transform: scale(1.05); box-shadow: 0 6px 24px rgba(37,211,102,.5); }
+    .fab-wa:active { transform: scale(.97); }
+    .fab-wa svg { width: 22px; height: 22px; flex-shrink: 0; }
+    .fab-wa-text { white-space: nowrap; }
+
+    @media (min-width: 780px) {
+      .fab-wa { bottom: 28px; }
+    }
+
+    /* ═══════════ LIGHTBOX ═══════════ */
+    .lightbox {
+      display: none; position: fixed; inset: 0; z-index: 800;
+      background: rgba(0,0,0,.96);
+      flex-direction: column; align-items: center; justify-content: center;
+    }
+    .lightbox.open { display: flex; }
+
+    .lb-top {
+      position: absolute; top: 0; left: 0; right: 0;
+      padding: 14px 16px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .lb-counter { color: rgba(255,255,255,.6); font-size: .85rem; }
+    .lb-close {
+      background: rgba(255,255,255,.12); border: none;
+      color: white; width: 40px; height: 40px;
+      border-radius: 50%; font-size: 1.2rem;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+    }
+
+    .lb-img {
+      max-width: 100vw; max-height: 80vh;
+      object-fit: contain;
+      border-radius: 6px;
+      user-select: none;
+    }
+
+    .lb-caption {
+      color: rgba(255,255,255,.65); font-size: .85rem;
+      margin-top: 14px; text-align: center; padding: 0 24px;
+    }
+
+    .lb-arrows {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 100%; padding: 0 10px;
+      display: flex; justify-content: space-between;
+      pointer-events: none;
+    }
+    .lb-arrow {
+      background: rgba(255,255,255,.12); border: none;
+      color: white; width: 48px; height: 48px;
+      border-radius: 50%; font-size: 1.5rem;
+      cursor: pointer; pointer-events: all;
+      display: flex; align-items: center; justify-content: center;
+      backdrop-filter: blur(4px);
+      transition: background .2s;
+    }
+    .lb-arrow:hover { background: rgba(255,255,255,.25); }
+
+    /* Miniatures lightbox bas */
+    .lb-thumbs {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      display: flex; gap: 4px; justify-content: center; flex-wrap: nowrap;
+      overflow-x: auto; padding: 10px 12px;
+      background: rgba(0,0,0,.4); scrollbar-width: none;
+    }
+    .lb-thumbs::-webkit-scrollbar { display: none; }
+    .lb-thumb {
+      width: 48px; height: 48px; flex-shrink: 0;
+      object-fit: cover; border-radius: 5px;
+      opacity: .5; cursor: pointer; border: 2px solid transparent;
+      transition: opacity .2s, border-color .2s;
+    }
+    .lb-thumb.active { opacity: 1; border-color: var(--accent); }
+
+    /* ═══════════ MODAL SUCCÈS ═══════════ */
+    .overlay {
+      display: none; position: fixed; inset: 0; z-index: 600;
+      background: rgba(0,0,0,.5);
+      align-items: flex-end; justify-content: center;
+    }
+    .overlay.open { display: flex; }
+
+    .modal {
+      background: white; width: 100%; max-width: 480px;
+      border-radius: 22px 22px 0 0;
+      padding: 28px 22px 44px;
+      text-align: center;
+      animation: slideUp .35s cubic-bezier(.32,1.2,.64,1);
+    }
+    @keyframes slideUp {
+      from { transform: translateY(100%); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+    .modal-handle { width: 40px; height: 4px; background: var(--border); border-radius: 99px; margin: 0 auto 24px; }
+    .modal-ico  { font-size: 3.5rem; margin-bottom: 12px; }
+    .modal h2   { font-size: 1.3rem; font-weight: 800; margin-bottom: 8px; }
+    .modal p    { color: var(--muted); font-size: .9rem; margin-bottom: 6px; }
+    .modal-ref  {
+      background: var(--light); border: 1.5px dashed #93c5fd;
+      border-radius: 10px; padding: 12px;
+      font-size: 1.1rem; font-weight: 800; letter-spacing: 2px;
+      color: var(--primary); margin: 14px 0 12px;
+    }
+    .modal-info {
+      background: #f0fdf4; border: 1px solid #bbf7d0;
+      border-radius: 10px; padding: 12px 16px;
+      font-size: .85rem; color: #166534; margin-bottom: 20px;
+    }
+    .btn-modal-close {
+      width: 100%; background: var(--primary); color: white;
+      border: none; padding: 15px; border-radius: 12px;
+      font-size: 1rem; font-weight: 700; cursor: pointer; min-height: 52px;
+    }
+
+    @media (min-width: 780px) {
+      .overlay { align-items: center; }
+      .modal { border-radius: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      🏠 Appartement Aokas
+      <span class="logo-sub">📍 Béjaïa, Algérie</span>
+    </div>
+    <div class="badge-dispo">
+      <span class="badge-dot"></span> Disponible
+    </div>
+  </div>
+</header>
+
+<!-- ═══ GALERIE HERO ═══ -->
+<div class="gallery-hero">
+  <img class="hero-main-img" id="heroImg"
+       src="images/terrasse-vue-montagne.jpg"
+       alt="Terrasse – Vue sur les montagnes de Kabylie"
+       onclick="openLightbox(0)" />
+
+  <div class="gallery-gradient">
+    <h1>Appartement à Aokas 🌅</h1>
+    <div class="sub">100 m² · 5 couchages · Double terrasse · Aokas, Béjaïa</div>
+  </div>
+
+  <button class="btn-all-photos" onclick="scrollToGallery()">
+    🖼️ Voir toutes les photos (15)
+  </button>
+</div>
+
+<div class="thumbs-row" id="thumbsRow"></div>
+
+<!-- ═══ RATING ═══ -->
+<div class="rating-bar">
+  <span class="stars">★★★★★</span>
+  <span class="rating-num">5,0</span>
+  <span>· Appartement de qualité · Hôte certifié</span>
+</div>
+
+<!-- ═══ CONTENU PRINCIPAL ═══ -->
+<div class="main-wrap">
+
+  <!-- ─── COLONNE GAUCHE ─── -->
+  <div class="col-left">
+
+    <!-- Présentation -->
+    <div class="bloc">
+      <div class="bloc-title">🏠 L'appartement</div>
+      <div class="facts-grid">
+        <div class="fact">
+          <div class="fact-ico">📐</div>
+          <div class="fact-val">100 m²</div>
+          <div class="fact-lbl">Superficie</div>
+        </div>
+        <div class="fact">
+          <div class="fact-ico">🛏️</div>
+          <div class="fact-val">5 couchages</div>
+          <div class="fact-lbl">Capacité</div>
+        </div>
+        <div class="fact">
+          <div class="fact-ico">📍</div>
+          <div class="fact-val">Aokas</div>
+          <div class="fact-lbl">10–20 km de Béjaïa</div>
+        </div>
+        <div class="fact">
+          <div class="fact-ico">🌅</div>
+          <div class="fact-val">Double</div>
+          <div class="fact-lbl">Terrasse</div>
+        </div>
+      </div>
+      <div class="terrace-card">
+        <div class="ico">🌅</div>
+        <div>
+          <h3>Double terrasse panoramique</h3>
+          <p>Vue imprenable sur les montagnes de Kabylie et le village d'Aokas</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Photos -->
+    <div class="bloc" id="photoSection">
+      <div class="bloc-title">📸 Photos de l'appartement</div>
+      <div class="photos-grid" id="photosGrid"></div>
+    </div>
+
+    <!-- Équipements -->
+    <div class="bloc">
+      <div class="bloc-title">✨ Équipements</div>
+      <div class="equip-grid">
+        <div class="equip-item"><span class="ico">🛏️</span>5 couchages</div>
+        <div class="equip-item"><span class="ico">📐</span>100 m²</div>
+        <div class="equip-item"><span class="ico">🌅</span>Double terrasse</div>
+        <div class="equip-item"><span class="ico">🍳</span>Cuisine équipée</div>
+        <div class="equip-item"><span class="ico">🚿</span>Salle de bain</div>
+        <div class="equip-item"><span class="ico">🌡️</span>Climatisation</div>
+        <div class="equip-item"><span class="ico">📶</span>Wi-Fi inclus</div>
+        <div class="equip-item"><span class="ico">📺</span>Télévision</div>
+        <div class="equip-item"><span class="ico">🧺</span>Lave-linge</div>
+        <div class="equip-item"><span class="ico">🔒</span>Entrée autonome</div>
+        <div class="equip-item"><span class="ico">🚗</span>Parking</div>
+        <div class="equip-item"><span class="ico">🧹</span>Ménage inclus</div>
+      </div>
+    </div>
+
+    <!-- Tarifs -->
+    <div class="bloc">
+      <div class="bloc-title">💰 Tarifs</div>
+      <div class="tarifs-grid">
+        <div class="tarif haute">
+          <div class="tarif-label">🌞 Haute saison</div>
+          <div class="tarif-months">Juillet – Août</div>
+          <div class="tarif-price">12 000</div>
+          <div class="tarif-unit">DZD / nuit</div>
+        </div>
+        <div class="tarif basse">
+          <div class="tarif-label">🌿 Basse saison</div>
+          <div class="tarif-months">Reste de l'année</div>
+          <div class="tarif-price">9 000</div>
+          <div class="tarif-unit">DZD / nuit</div>
+        </div>
+      </div>
+      <div class="tarif-note">
+        ℹ️ Le prix total est calculé automatiquement selon vos dates. Les nuits en juillet–août sont facturées au tarif haute saison.
+      </div>
+    </div>
+
+    <!-- Règles -->
+    <div class="bloc">
+      <div class="bloc-title">📋 Règles de la maison</div>
+      <div class="rules-list">
+        <div class="rule"><span class="rule-ico">🕒</span><span>Arrivée à partir de <strong>14h00</strong> — Départ avant <strong>12h00</strong></span></div>
+        <div class="rule"><span class="rule-ico">🚭</span><span>Non-fumeurs à l'intérieur</span></div>
+        <div class="rule"><span class="rule-ico">👨‍👩‍👧‍👦</span><span>Maximum <strong>5 personnes</strong></span></div>
+        <div class="rule"><span class="rule-ico">🧹</span><span>Ménage de fin de séjour inclus</span></div>
+        <div class="rule"><span class="rule-ico">📵</span><span>Respect du voisinage après 23h</span></div>
+        <div class="rule"><span class="rule-ico">💳</span><span>Caution demandée à l'arrivée (remboursée au départ)</span></div>
+      </div>
+    </div>
+
+    <!-- Localisation -->
+    <div class="bloc">
+      <div class="bloc-title">📍 Localisation</div>
+      <div class="map-placeholder">
+        <div class="map-ico">🗺️</div>
+        <h3>Aokas — Wilaya de Béjaïa</h3>
+        <p>Adresse exacte communiquée après confirmation de réservation</p>
+      </div>
+      <div class="nearby-list">
+        <div class="nearby-item">🏙️ <span><strong>10 à 20 km</strong> du centre de Béjaïa</span></div>
+        <div class="nearby-item">🌊 <span>Plage d'Aokas à <strong>quelques minutes</strong> à pied</span></div>
+        <div class="nearby-item">🛒 <span>Commerces et marché <strong>à proximité</strong></span></div>
+        <div class="nearby-item">🚌 <span>Transport en commun vers Béjaïa <strong>accessible</strong></span></div>
+        <div class="nearby-item">🏥 <span>Clinique et pharmacie <strong>dans le village</strong></span></div>
+      </div>
+    </div>
+
+  </div><!-- /col-left -->
+
+  <!-- ─── COLONNE DROITE — FORMULAIRE ─── -->
+  <div class="col-right">
+    <div class="bloc" id="reservationBloc">
+      <div class="bloc-title">📅 Réserver cet appartement</div>
+
+      <form id="bookForm" novalidate autocomplete="on">
+
+        <!-- Calendrier disponibilités -->
+        <div class="dispo-cal-wrap">
+          <div class="dispo-cal-hdr">
+            <button class="dispo-cal-nav" type="button" onclick="calPrev()">◀</button>
+            <span class="dispo-cal-titre" id="calTitreClient"></span>
+            <button class="dispo-cal-nav" type="button" onclick="calNext()">▶</button>
+          </div>
+          <div class="dispo-cal-days-names">
+            <span>Lun</span><span>Mar</span><span>Mer</span><span>Jeu</span><span>Ven</span><span>Sam</span><span>Dim</span>
+          </div>
+          <div class="dispo-cal-grid" id="dispoGrid"></div>
+          <div class="dispo-cal-legende">
+            <span><i class="dleg libre"></i> Disponible</span>
+            <span><i class="dleg pris"></i> Réservé</span>
+            <span><i class="dleg sel"></i> Sélectionné</span>
+          </div>
+          <div class="dispo-sel-info" id="selInfo"></div>
+        </div>
+
+        <!-- Dates -->
+        <div class="form-row">
+          <div class="two-cols">
+            <div>
+              <label class="form-label" for="checkin">Arrivée</label>
+              <input type="date" id="checkin" name="checkin" required />
+              <div class="err-msg" id="err-checkin">Choisissez une date d'arrivée.</div>
+            </div>
+            <div>
+              <label class="form-label" for="checkout">Départ</label>
+              <input type="date" id="checkout" name="checkout" required />
+              <div class="err-msg" id="err-checkout">La date de départ est invalide.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Personnes -->
+        <div class="form-row">
+          <label class="form-label" for="guests">Nombre de personnes</label>
+          <div class="select-wrap">
+            <select id="guests" name="guests">
+              <option value="1">1 personne</option>
+              <option value="2">2 personnes</option>
+              <option value="3">3 personnes</option>
+              <option value="4">4 personnes</option>
+              <option value="5" selected>5 personnes</option>
+            </select>
+          </div>
+        </div>
+        <div id="guests-note" style="font-size:.78rem;color:#64748b;margin-top:-10px;margin-bottom:12px;display:none"></div>
+
+        <!-- Récap prix -->
+        <div class="recap" id="recapBox">
+          <div class="recap-saison" id="recapSaison"></div>
+          <div class="recap-row">
+            <span id="recapNuits">—</span>
+            <span id="recapMontant">—</span>
+          </div>
+          <div class="recap-row total">
+            <span>Total estimé</span>
+            <span id="recapTotal">—</span>
+          </div>
+        </div>
+
+        <!-- Nom complet -->
+        <div class="form-row">
+          <label class="form-label" for="fname">Prénom et Nom</label>
+          <input type="text" id="fname" name="fname"
+                 placeholder="Ex : Karim Mabrouk"
+                 autocomplete="name" required />
+          <div class="err-msg" id="err-fname">Veuillez saisir votre nom complet.</div>
+        </div>
+
+        <!-- Téléphone -->
+        <div class="form-row">
+          <label class="form-label" for="phone">Téléphone / WhatsApp</label>
+          <input type="tel" id="phone" name="phone"
+                 placeholder="+213 6XX XXX XXX"
+                 autocomplete="tel" inputmode="tel" required />
+          <div class="err-msg" id="err-phone">Veuillez saisir votre numéro de téléphone.</div>
+        </div>
+
+        <!-- Email (optionnel) -->
+        <div class="form-row">
+          <label class="form-label" for="email">
+            E-mail <span style="font-weight:400; text-transform:none">(optionnel)</span>
+          </label>
+          <input type="email" id="email" name="email"
+                 placeholder="exemple@email.com"
+                 autocomplete="email" />
+        </div>
+
+        <!-- Message -->
+        <div class="form-row">
+          <label class="form-label" for="msg">Message</label>
+          <textarea id="msg" name="msg" rows="3"
+                    placeholder="Heure d'arrivée prévue, questions, besoins particuliers…"></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">
+          ✅ Envoyer ma demande de réservation
+        </button>
+
+        <div class="divider-or">ou contacter directement</div>
+
+        <a href="https://wa.me/213559862018?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9(e)%20par%20la%20location%20de%20l%27appartement%20%C3%A0%20Aokas.%20Pouvez-vous%20me%20donner%20plus%20d%27informations%20%3F"
+           class="btn-wa" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+          </svg>
+          Contacter sur WhatsApp
+        </a>
+
+        <div class="secure-note">🔒 Aucun paiement en ligne — Confirmation directe par l'hôte</div>
+
+      </form>
+    </div>
+  </div><!-- /col-right -->
+
+</div><!-- /main-wrap -->
+
+<!-- ═══ BARRE FIXE BAS (mobile) ═══ -->
+<div class="bottom-bar">
+  <div class="bar-price">
+    <div class="amount" id="barAmount">À partir de 9 000 DZD</div>
+    <div class="lbl"    id="barLabel">/ nuit · selon la saison</div>
+  </div>
+  <button class="btn-bar-book" onclick="scrollToForm()">Réserver</button>
+</div>
+
+<!-- ═══ BOUTON WHATSAPP FLOTTANT ═══ -->
+<a href="https://wa.me/213559862018?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9(e)%20par%20votre%20appartement%20%C3%A0%20Aokas."
+   class="fab-wa" target="_blank" rel="noopener" title="Contacter sur WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+  </svg>
+  <span class="fab-wa-text">WhatsApp</span>
+</a>
+
+<!-- ═══ LIGHTBOX ═══ -->
+<div class="lightbox" id="lightbox">
+  <div class="lb-top">
+    <span class="lb-counter" id="lbCounter">1 / 15</span>
+    <button class="lb-close" onclick="closeLightbox()">✕</button>
+  </div>
+  <img class="lb-img" id="lbImg" src="" alt="" />
+  <div class="lb-caption" id="lbCaption"></div>
+  <div class="lb-arrows">
+    <button class="lb-arrow" onclick="lbNav(-1)">‹</button>
+    <button class="lb-arrow" onclick="lbNav(+1)">›</button>
+  </div>
+  <div class="lb-thumbs" id="lbThumbs"></div>
+</div>
+
+<!-- ═══ MODAL SUCCÈS ═══ -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-ico">🎉</div>
+    <h2>Demande envoyée !</h2>
+    <p>Votre demande de réservation a bien été reçue.</p>
+    <div class="modal-ref" id="bookRef">—</div>
+    <div class="modal-info">
+      📞 Nous vous contacterons dans les <strong>24 heures</strong> par téléphone ou WhatsApp pour confirmer votre séjour.
+    </div>
+    <button class="btn-modal-close" onclick="closeModal()">Parfait, merci !</button>
+  </div>
+</div>
+
+<script>
+  // ════════════════════════════════════════════════
+  // LISTE DES PHOTOS
+  // Sauvegarde chaque image dans : frontend/images/
+  // avec exactement le nom de fichier indiqué
+  // ════════════════════════════════════════════════
+  const PHOTOS = [
+    { src: 'images/terrasse-vue-montagne.jpg',  caption: 'Grande terrasse – Vue sur les montagnes',      emoji: '🏔️', bg: '#bae6fd' },
+    { src: 'images/terrasse-panorama.jpg',       caption: 'Terrasse panoramique – Vue de dessus',         emoji: '🌅', bg: '#bae6fd' },
+    { src: 'images/terrasse-petit.jpg',          caption: 'Petite terrasse avec plantes et parasol',      emoji: '🌿', bg: '#bbf7d0' },
+    { src: 'images/terrasse-bbq.jpg',            caption: 'Terrasse avec espace BBQ et oranger',          emoji: '🍊', bg: '#fed7aa' },
+    { src: 'images/salon-canape.jpg',            caption: 'Salon – Canapé kilim et décoration berbère',   emoji: '🛋️', bg: '#fecaca' },
+    { src: 'images/salon-canape2.jpg',           caption: 'Salon – Vue d\'ensemble avec poufs kilim',     emoji: '🛋️', bg: '#fecaca' },
+    { src: 'images/salon-tv.jpg',                caption: 'Salon – Meuble TV avec éclairage LED',         emoji: '📺', bg: '#e9d5ff' },
+    { src: 'images/salle-a-manger.jpg',          caption: 'Salle à manger – Table et chaises blanches',   emoji: '🍽️', bg: '#fef9c3' },
+    { src: 'images/cuisine.jpg',                 caption: 'Cuisine équipée – Four, hotte, plan noir',     emoji: '🍳', bg: '#e0f2fe' },
+    { src: 'images/cuisine-detail.jpg',          caption: 'Cuisine – Machine à café Nespresso',           emoji: '☕', bg: '#e0f2fe' },
+    { src: 'images/chambre-double-1.jpg',        caption: 'Chambre double – Literie brodée berbère',      emoji: '🛏️', bg: '#fce7f3' },
+    { src: 'images/chambre-double-2.jpg',        caption: 'Chambre double – Détail oreillers brodés',     emoji: '🛏️', bg: '#fce7f3' },
+    { src: 'images/chambre-lits-simples.jpg',    caption: 'Chambre avec deux lits simples',               emoji: '🛏️', bg: '#fce7f3' },
+    { src: 'images/entree.jpg',                  caption: 'Entrée – Miroir kilim et rideau brodé',        emoji: '🚪', bg: '#f5f5f4' },
+    { src: 'images/salle-de-bain.jpg',           caption: 'Salle de bain – Double vasque sous arche',     emoji: '🚿', bg: '#cffafe' },
+  ];
+
+  // ─── Placeholder SVG pour images manquantes ───
+  function makePlaceholder(emoji, bg, caption) {
+    const txt = (caption.length > 30 ? caption.slice(0, 30) + '…' : caption)
+                  .replace(/[<>&"]/g, ''); // sécurité SVG
+    const svg = [
+      '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300">',
+        '<rect fill="' + bg + '" width="400" height="300"/>',
+        '<text x="200" y="128" text-anchor="middle" font-size="52" font-family="system-ui">' + emoji + '</text>',
+        '<text x="200" y="178" text-anchor="middle" font-size="14" fill="#475569" font-family="system-ui">' + txt + '</text>',
+        '<text x="200" y="200" text-anchor="middle" font-size="11" fill="#94a3b8" font-family="system-ui">Ajouter dans images/</text>',
+      '</svg>'
+    ].join('');
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  }
+
+  // ─── Gestion image hero manquante ───
+  const heroImg = document.getElementById('heroImg');
+  heroImg.onerror = function () {
+    this.onerror = null;
+    this.src = makePlaceholder(PHOTOS[0].emoji, PHOTOS[0].bg, PHOTOS[0].caption);
+  };
+
+  // ─── Génération des miniatures hero et de la grille photos ───
+  const thumbsRow = document.getElementById('thumbsRow');
+  const photosGrid = document.getElementById('photosGrid');
+  const lbThumbs   = document.getElementById('lbThumbs');
+
+  PHOTOS.forEach((p, i) => {
+    const ph = makePlaceholder(p.emoji, p.bg, p.caption);
+
+    // — Miniature hero —
+    const th = document.createElement('img');
+    th.className = 'thumb-item' + (i === 0 ? ' active' : '');
+    th.src = p.src; th.alt = p.caption;
+    th.onerror = function () { this.onerror = null; this.src = ph; };
+    th.addEventListener('click', () => {
+      heroImg.src = p.src;
+      heroImg.onerror = function () { this.onerror = null; this.src = ph; };
+      document.querySelectorAll('.thumb-item').forEach(x => x.classList.remove('active'));
+      th.classList.add('active');
+    });
+    thumbsRow.appendChild(th);
+
+    // — Cellule de la grille —
+    const cell = document.createElement('div');
+    cell.className = 'photo-cell';
+
+    const img = document.createElement('img');
+    img.src = p.src; img.alt = p.caption;
+    img.onerror = function () { this.onerror = null; this.src = ph; };
+    img.addEventListener('click', () => openLightbox(i));
+
+    const num = document.createElement('span');
+    num.className = 'photo-num';
+    num.textContent = i + 1;
+
+    cell.appendChild(img);
+    cell.appendChild(num);
+    photosGrid.appendChild(cell);
+
+    // — Miniature lightbox —
+    const lbt = document.createElement('img');
+    lbt.className = 'lb-thumb' + (i === 0 ? ' active' : '');
+    lbt.src = p.src; lbt.alt = p.caption;
+    lbt.onerror = function () { this.onerror = null; this.src = ph; };
+    lbt.addEventListener('click', () => { lbIndex = i; renderLb(); });
+    lbThumbs.appendChild(lbt);
+  });
+
+  // ─── Scroll vers galerie ───
+  function scrollToGallery() {
+    document.getElementById('photoSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // ─── Scroll vers formulaire ───
+  function scrollToForm() {
+    document.getElementById('reservationBloc').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(() => document.getElementById('checkin').focus(), 400);
+  }
+
+  // ════ LIGHTBOX ════
+  let lbIndex = 0;
+  let tsX = 0; // swipe tactile
+
+  function openLightbox(i) {
+    lbIndex = i;
+    renderLb();
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function lbNav(dir) {
+    lbIndex = (lbIndex + dir + PHOTOS.length) % PHOTOS.length;
+    renderLb();
+  }
+
+  function renderLb() {
+    const p  = PHOTOS[lbIndex];
+    const ph = makePlaceholder(p.emoji, p.bg, p.caption);
+    const img = document.getElementById('lbImg');
+    img.src = p.src;
+    img.onerror = function () { this.onerror = null; this.src = ph; };
+    img.alt = p.caption;
+    document.getElementById('lbCaption').textContent = p.caption;
+    document.getElementById('lbCounter').textContent = (lbIndex + 1) + ' / ' + PHOTOS.length;
+
+    // Miniatures lightbox
+    document.querySelectorAll('.lb-thumb').forEach((t, i) => {
+      t.classList.toggle('active', i === lbIndex);
+    });
+    // Scroll miniature active
+    const active = lbThumbs.querySelectorAll('.lb-thumb')[lbIndex];
+    if (active) active.scrollIntoView({ inline: 'center', block: 'nearest' });
+  }
+
+  // Swipe tactile lightbox
+  const lb = document.getElementById('lightbox');
+  lb.addEventListener('touchstart', e => { tsX = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - tsX;
+    if (Math.abs(dx) > 48) lbNav(dx < 0 ? 1 : -1);
+  });
+
+  // Clavier
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'ArrowRight') lbNav(1);
+    if (e.key === 'ArrowLeft')  lbNav(-1);
+    if (e.key === 'Escape')     closeLightbox();
+  });
+
+  // ════ DATES ════
+  const todayStr = new Date().toISOString().split('T')[0];
+  document.getElementById('checkin').min  = todayStr;
+  document.getElementById('checkout').min = todayStr;
+
+  // ════ CALCUL PRIX ════
+  let TARIF_HAUTE = 12000; // mis à jour depuis /api/settings
+  let TARIF_BASSE =  9000;
+
+  function isHaute(date) {
+    const m = date.getMonth() + 1;
+    return m === 7 || m === 8;
+  }
+
+  function calculerTotal(ci, co) {
+    let total = 0, nuits = 0, haute = 0, basse = 0;
+    let cur = new Date(ci);
+    const fin = new Date(co);
+    while (cur < fin) {
+      if (isHaute(cur)) { total += TARIF_HAUTE; haute++; }
+      else               { total += TARIF_BASSE;  basse++; }
+      nuits++;
+      cur = new Date(cur.getTime() + 86400000);
+    }
+    return { nuits, total, haute, basse };
+  }
+
+  function formaterPrix(n) {
+    return n.toLocaleString('fr-DZ') + ' DZD';
+  }
+
+  function mettreAJourRecap() {
+    const ci  = document.getElementById('checkin').value;
+    const co  = document.getElementById('checkout').value;
+    const box = document.getElementById('recapBox');
+
+    if (!ci || !co || co <= ci) {
+      box.classList.remove('show');
+      reinitialiserBarre();
+      return;
+    }
+
+    const { nuits, total, haute, basse } = calculerTotal(ci, co);
+
+    let texte = '';
+    if (haute > 0 && basse > 0)
+      texte = `🌞 ${haute} nuit(s) haute saison + 🌿 ${basse} nuit(s) basse saison`;
+    else if (haute > 0)
+      texte = '🌞 Haute saison (Juillet–Août) — 12 000 DZD/nuit';
+    else
+      texte = '🌿 Basse saison — 9 000 DZD/nuit';
+
+    document.getElementById('recapSaison').textContent  = texte;
+    document.getElementById('recapNuits').textContent   = nuits + ' nuit' + (nuits > 1 ? 's' : '');
+    document.getElementById('recapMontant').textContent = formaterPrix(total);
+    document.getElementById('recapTotal').textContent   = formaterPrix(total);
+    box.classList.add('show');
+
+    document.getElementById('barAmount').textContent = formaterPrix(total);
+    document.getElementById('barLabel').textContent  = nuits + ' nuit' + (nuits > 1 ? 's' : '') + ' · total estimé';
+  }
+
+  function reinitialiserBarre() {
+    document.getElementById('barAmount').textContent = 'À partir de 9 000 DZD';
+    document.getElementById('barLabel').textContent  = '/ nuit · selon la saison';
+  }
+
+  document.getElementById('checkin').addEventListener('change', function () {
+    document.getElementById('checkout').min = this.value;
+    mettreAJourRecap();
+  });
+  document.getElementById('checkout').addEventListener('change', mettreAJourRecap);
+
+  // ════ VALIDATION & SOUMISSION ════
+  function setErreur(id, afficher) {
+    document.getElementById('err-' + id)?.classList.toggle('show', afficher);
+    document.getElementById(id)?.classList.toggle('err', afficher);
+  }
+
+  function genererRef() {
+    return 'AOK-' + Date.now().toString(36).toUpperCase().slice(-6);
+  }
+
+  document.getElementById('bookForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const ci    = document.getElementById('checkin').value;
+    const co    = document.getElementById('checkout').value;
+    const fname = document.getElementById('fname').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const msg   = document.getElementById('msg').value.trim();
+    const guests= document.getElementById('guests').value;
+
+    let valide = true;
+    if (!ci)                                            { setErreur('checkin',  true); valide = false; } else setErreur('checkin',  false);
+    if (!co || co <= ci)                                { setErreur('checkout', true); valide = false; } else setErreur('checkout', false);
+    if (!fname || fname.length < 3)                     { setErreur('fname',    true); valide = false; } else setErreur('fname',    false);
+    if (!phone || phone.replace(/\D/g,'').length < 8)   { setErreur('phone',    true); valide = false; } else setErreur('phone',    false);
+    if (!valide) return;
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = '⏳ Envoi en cours…';
+
+    try {
+      const reponse = await fetch('/api/reservations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nom:          fname,
+          telephone:    phone,
+          email,
+          date_arrivee: ci,
+          date_depart:  co,
+          nb_personnes: parseInt(guests),
+          message:      msg,
+        }),
+      });
+
+      const data = await reponse.json();
+
+      if (!reponse.ok) {
+        // Dates déjà réservées ou autre erreur
+        const msg = data.erreur || (data.erreurs && data.erreurs.join(' ')) || 'Erreur lors de l\'envoi.';
+        alert('⚠️ ' + msg);
+        return;
+      }
+
+      // Succès
+      document.getElementById('bookRef').textContent = data.reference;
+      document.getElementById('overlay').classList.add('open');
+      this.reset();
+      document.getElementById('recapBox').classList.remove('show');
+      reinitialiserBarre();
+
+    } catch (err) {
+      alert('❌ Impossible de contacter le serveur. Vérifiez votre connexion.');
+      console.error(err);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '✅ Envoyer ma demande de réservation';
+    }
+  });
+
+  function closeModal() {
+    document.getElementById('overlay').classList.remove('open');
+    document.getElementById('bookForm').reset();
+    document.getElementById('recapBox').classList.remove('show');
+    reinitialiserBarre();
+    selDebut = null; selFin = null;
+    renderDispoCalendar();
+  }
+
+  // ════ CALENDRIER DISPONIBILITÉS ════
+  let datesReservees = [];
+  let calMoisClient  = new Date().getMonth();
+  let calAnneeClient = new Date().getFullYear();
+  let selDebut = null;
+  let selFin   = null;
+  let minNuits = 1;
+
+  async function initCalendrier() {
+    try {
+      const [resDates, resSettings] = await Promise.all([
+        fetch('/api/dates-reservees'),
+        fetch('/api/settings'),
+      ]);
+      datesReservees = await resDates.json();
+      const s = await resSettings.json();
+
+      // Mettre à jour les tarifs
+      if (s.prix_haute) TARIF_HAUTE = s.prix_haute;
+      if (s.prix_basse) TARIF_BASSE = s.prix_basse;
+      minNuits = s.min_nuits || 1;
+
+      // Mettre à jour le select personnes selon max_personnes
+      const max = s.max_personnes || 8;
+      const sel = document.getElementById('guests');
+      sel.innerHTML = '';
+      for (let i = 1; i <= max; i++) {
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = i === 1 ? '1 personne' : `${i} personnes`;
+        if (i === Math.min(5, max)) opt.selected = true;
+        sel.appendChild(opt);
+      }
+      if (max > 1) {
+        const note = document.getElementById('guests-note');
+        note.textContent = `Capacité maximum : ${max} personnes`;
+        note.style.display = 'block';
+      }
+
+      // Mettre à jour la barre du bas
+      document.getElementById('barAmount').textContent = `À partir de ${TARIF_BASSE.toLocaleString('fr-DZ')} DZD`;
+    } catch(e) { datesReservees = []; }
+    renderDispoCalendar();
+  }
+
+  function calPrev() {
+    calMoisClient--;
+    if (calMoisClient < 0) { calMoisClient = 11; calAnneeClient--; }
+    renderDispoCalendar();
+  }
+  function calNext() {
+    calMoisClient++;
+    if (calMoisClient > 11) { calMoisClient = 0; calAnneeClient++; }
+    renderDispoCalendar();
+  }
+
+  function dateStr(y, m, d) {
+    return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+  }
+
+  function isReserve(ds) {
+    return datesReservees.some(r => r.debut <= ds && r.fin > ds);
+  }
+
+  function isRangeLibre(debut, fin) {
+    let cur = new Date(debut);
+    const end = new Date(fin);
+    while (cur < end) {
+      const ds = cur.toISOString().slice(0,10);
+      if (isReserve(ds)) return false;
+      cur = new Date(cur.getTime() + 86400000);
+    }
+    return true;
+  }
+
+  function renderDispoCalendar() {
+    const MOIS = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+    document.getElementById('calTitreClient').textContent = MOIS[calMoisClient] + ' ' + calAnneeClient;
+
+    const today    = new Date(); today.setHours(0,0,0,0);
+    const todayDs  = today.toISOString().slice(0,10);
+    const dernier  = new Date(calAnneeClient, calMoisClient + 1, 0).getDate();
+    const debut    = (new Date(calAnneeClient, calMoisClient, 1).getDay() + 6) % 7;
+
+    let html = '';
+    for (let i = 0; i < debut; i++) html += '<div class="dispo-day vide"></div>';
+
+    for (let j = 1; j <= dernier; j++) {
+      const ds  = dateStr(calAnneeClient, calMoisClient, j);
+      const dt  = new Date(ds);
+      const passe   = dt < today;
+      const reserve = isReserve(ds);
+      const isToday = ds === todayDs;
+
+      let cls = 'dispo-day';
+      if (passe)                       cls += ' passe';
+      else if (reserve)                cls += ' pris';
+      else if (ds === selDebut)        cls += ' sel-start libre';
+      else if (ds === selFin)          cls += ' sel-end libre';
+      else if (selDebut && selFin && ds > selDebut && ds < selFin) cls += ' sel-range';
+      else                             cls += ' libre';
+      if (isToday && !passe)           cls += ' today';
+
+      // jour de départ possible (jour réservé mais arrivée le même jour acceptée)
+      if (!passe && reserve && selDebut && !selFin) {
+        const veille = new Date(ds);
+        veille.setDate(veille.getDate() - 1);
+        const veilleDs = veille.toISOString().slice(0,10);
+        if (!isReserve(veilleDs)) cls = 'dispo-day depart-ok';
+      }
+
+      const onclick = (!passe && !reserve) || cls.includes('depart-ok')
+        ? `onclick="calJourClick('${ds}')"`
+        : '';
+      html += `<div class="${cls}" ${onclick}>${j}</div>`;
+    }
+
+    document.getElementById('dispoGrid').innerHTML = html;
+    majSelInfo();
+  }
+
+  function calJourClick(ds) {
+    if (!selDebut || (selDebut && selFin)) {
+      selDebut = ds; selFin = null;
+    } else {
+      if (ds <= selDebut) { selDebut = ds; selFin = null; }
+      else if (!isRangeLibre(selDebut, ds)) {
+        selDebut = ds; selFin = null;
+      } else {
+        selFin = ds;
+        document.getElementById('checkin').value  = selDebut;
+        document.getElementById('checkout').value = selFin;
+        mettreAJourRecap();
+      }
+    }
+    renderDispoCalendar();
+  }
+
+  function majSelInfo() {
+    const el = document.getElementById('selInfo');
+    if (!selDebut) {
+      el.textContent = minNuits > 1
+        ? `Cliquez sur une date d'arrivée · Séjour minimum : ${minNuits} nuits`
+        : 'Cliquez sur une date d\'arrivée';
+    } else if (!selFin) {
+      el.textContent = `Arrivée : ${new Date(selDebut).toLocaleDateString('fr-DZ',{day:'numeric',month:'long'})} — Cliquez sur la date de départ`;
+    } else {
+      const n = Math.round((new Date(selFin)-new Date(selDebut))/86400000);
+      el.textContent = `✅ ${n} nuit${n>1?'s':''} sélectionnée${n>1?'s':''}`;
+    }
+  }
+
+  initCalendrier();
+</script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "reservations": [
+    {
+      "reference": "AOK-MZ5NRU",
+      "nom": "Karim Test",
+      "telephone": "0661234567",
+      "email": "test@gmail.com",
+      "date_arrivee": "2026-07-10",
+      "date_depart": "2026-07-15",
+      "nb_personnes": 3,
+      "message": "Test r�servation",
+      "prix_total": 60000,
+      "id": 1777643692698,
+      "created_at": "01/05/2026 3:54:52 PM",
+      "statut": "en_attente"
+    }
+  ]
+}
