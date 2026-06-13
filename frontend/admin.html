@@ -367,14 +367,19 @@
   async function login() {
     const key = document.getElementById('keyInput').value.trim();
     if (!key) return;
-    const res = await fetch('/api/admin/stats', { headers: { 'x-admin-key': key } });
-    if (res.ok) {
-      adminKey = key;
-      document.getElementById('loginScreen').style.display = 'none';
-      document.getElementById('app').classList.add('visible');
-      chargerTout();
-    } else {
-      document.getElementById('loginErr').textContent = '❌ Clé incorrecte.';
+    try {
+      const res = await fetch('/api/admin/stats', { headers: { 'x-admin-key': key } });
+      if (res.ok) {
+        adminKey = key;
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('app').classList.add('visible');
+        chargerTout();
+      } else {
+        document.getElementById('loginErr').textContent = '❌ Clé incorrecte. Vérifiez votre clé d\'accès.';
+      }
+    } catch (err) {
+      document.getElementById('loginErr').textContent =
+        '⚠️ Impossible de joindre le serveur. Lancez le serveur (npm start) et ouvrez http://localhost:3000/admin.html';
     }
   }
 
@@ -424,6 +429,12 @@
     afficher();
   }
 
+  function esc(str) {
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
   function afficher() {
     const recherche = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
     let liste = filtreActuel === 'tous'
@@ -441,24 +452,24 @@
       return;
     }
     tbody.innerHTML = liste.map(r => `
-      <tr class="${r.statut}">
-        <td><strong>${r.reference}</strong></td>
-        <td style="white-space:nowrap;color:#64748b;font-size:.8rem">${r.created_at.slice(0,16)}</td>
-        <td><strong>${r.nom}</strong>${r.email ? '<br><span style="font-size:.78rem;color:#64748b">'+r.email+'</span>' : ''}</td>
-        <td><a href="tel:${r.telephone}" style="color:#0369a1;font-weight:600">${r.telephone}</a></td>
+      <tr class="${esc(r.statut)}">
+        <td><strong>${esc(r.reference)}</strong></td>
+        <td style="white-space:nowrap;color:#64748b;font-size:.8rem">${esc((r.created_at || '').slice(0,16))}</td>
+        <td><strong>${esc(r.nom)}</strong>${r.email ? '<br><span style="font-size:.78rem;color:#64748b">'+esc(r.email)+'</span>' : ''}</td>
+        <td><a href="tel:${esc(r.telephone)}" style="color:#0369a1;font-weight:600">${esc(r.telephone)}</a></td>
         <td style="white-space:nowrap">${fmtDate(r.date_arrivee)}</td>
         <td style="white-space:nowrap">${fmtDate(r.date_depart)}</td>
-        <td style="text-align:center">${r.nb_personnes}</td>
-        <td style="white-space:nowrap;font-weight:700;color:#0369a1">${r.prix_total.toLocaleString('fr-DZ')} DZD</td>
-        <td><span class="badge ${r.statut}">${labelStatut(r.statut)}</span></td>
+        <td style="text-align:center">${parseInt(r.nb_personnes) || 0}</td>
+        <td style="white-space:nowrap;font-weight:700;color:#0369a1">${Number(r.prix_total).toLocaleString('fr-DZ')} DZD</td>
+        <td><span class="badge ${esc(r.statut)}">${labelStatut(r.statut)}</span></td>
         <td>
-          ${r.statut !== 'confirmee' ? `<button class="action-btn btn-confirm" onclick="changerStatut(${r.id},'confirmee')">✅ Confirmer</button>` : ''}
-          ${r.statut !== 'annulee'   ? `<button class="action-btn btn-cancel"  onclick="changerStatut(${r.id},'annulee')">❌ Annuler</button>` : ''}
+          ${r.statut !== 'confirmee' ? `<button class="action-btn btn-confirm" onclick="changerStatut(${Number(r.id)},'confirmee')">✅ Confirmer</button>` : ''}
+          ${r.statut !== 'annulee'   ? `<button class="action-btn btn-cancel"  onclick="changerStatut(${Number(r.id)},'annulee')">❌ Annuler</button>` : ''}
           <a class="action-btn btn-wa"
              href="https://wa.me/${r.telephone.replace(/\D/g,'')}?text=${encodeURIComponent('Bonjour '+r.nom+', votre réservation '+r.reference+' est confirmée. Merci !')}"
              target="_blank">💬 WA</a>
-          <button class="action-btn btn-pdf"    onclick="imprimerBon(${r.id})">🧾 PDF</button>
-          <button class="action-btn btn-delete" onclick="supprimerReservation(${r.id},'${r.reference}')">🗑️</button>
+          <button class="action-btn btn-pdf"    onclick="imprimerBon(${Number(r.id)})">🧾 PDF</button>
+          <button class="action-btn btn-delete" onclick="supprimerReservation(${Number(r.id)},'${esc(r.reference)}')">🗑️</button>
         </td>
       </tr>
     `).join('');
@@ -531,18 +542,18 @@
   <div class="ref-box">
     <div>
       <div style="font-size:.75rem;color:#64748b;margin-bottom:4px;">RÉFÉRENCE</div>
-      <div class="ref-val">${r.reference}</div>
+      <div class="ref-val">${esc(r.reference)}</div>
     </div>
     <div class="ref-date">
-      Demande reçue le<br><strong>${r.created_at}</strong>
+      Demande reçue le<br><strong>${esc(r.created_at)}</strong>
     </div>
   </div>
 
   <div class="section-title">Informations client</div>
   <table>
-    <tr><td>Nom complet</td><td><strong>${r.nom}</strong></td></tr>
-    <tr><td>Téléphone</td><td>${r.telephone}</td></tr>
-    <tr><td>Email</td><td>${r.email || '—'}</td></tr>
+    <tr><td>Nom complet</td><td><strong>${esc(r.nom)}</strong></td></tr>
+    <tr><td>Téléphone</td><td>${esc(r.telephone)}</td></tr>
+    <tr><td>Email</td><td>${esc(r.email || '—')}</td></tr>
   </table>
 
   <div class="section-title">Détails du séjour</div>
@@ -550,19 +561,19 @@
     <tr><td>Date d'arrivée</td><td><strong>${fmtDateLong(r.date_arrivee)}</strong></td></tr>
     <tr><td>Date de départ</td><td><strong>${fmtDateLong(r.date_depart)}</strong></td></tr>
     <tr><td>Durée du séjour</td><td>${nuits} nuit${nuits > 1 ? 's' : ''}</td></tr>
-    <tr><td>Nombre de personnes</td><td>${r.nb_personnes}</td></tr>
-    <tr><td>Statut</td><td><span class="badge">${statutLabel}</span></td></tr>
-    ${r.message ? `<tr><td>Message</td><td><em>${r.message}</em></td></tr>` : ''}
+    <tr><td>Nombre de personnes</td><td>${parseInt(r.nb_personnes) || 0}</td></tr>
+    <tr><td>Statut</td><td><span class="badge">${esc(statutLabel)}</span></td></tr>
+    ${r.message ? `<tr><td>Message</td><td><em>${esc(r.message)}</em></td></tr>` : ''}
   </table>
 
   <div class="prix-box">
     <div class="lbl">Montant total</div>
-    <div class="val">${r.prix_total.toLocaleString('fr-DZ')} DZD</div>
+    <div class="val">${Number(r.prix_total).toLocaleString('fr-DZ')} DZD</div>
   </div>
 
   <div class="footer">
-    Appartement Aokas · Aokas, Béjaïa, Algérie · Tél : ${r.telephone}<br>
-    Document généré le ${new Date().toLocaleDateString('fr-DZ')} — Référence ${r.reference}
+    Appartement Aokas · Aokas, Béjaïa, Algérie · Tél : ${esc(r.telephone)}<br>
+    Document généré le ${new Date().toLocaleDateString('fr-DZ')} — Référence ${esc(r.reference)}
   </div>
 </body>
 </html>`;
@@ -654,7 +665,7 @@
       const hasConf = res.some(r => r.statut === 'confirmee');
       const hasAtt  = res.some(r => r.statut === 'en_attente');
       const cls = 'cal-day' + (hasConf && hasAtt ? ' mixed' : hasConf ? ' confirmee' : hasAtt ? ' en_attente' : '');
-      const dots = res.map(r => `<div class="res-dot">${r.statut === 'confirmee' ? '✅' : '⏳'} ${r.nom}</div>`).join('');
+      const dots = res.map(r => `<div class="res-dot">${r.statut === 'confirmee' ? '✅' : '⏳'} ${esc(r.nom)}</div>`).join('');
       html += `<div class="${cls}"><div class="num">${jour}</div>${dots}</div>`;
     }
     document.getElementById('calGrid').innerHTML = html;

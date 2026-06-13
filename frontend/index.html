@@ -694,13 +694,13 @@
         <div class="tarif haute">
           <div class="tarif-label">🌞 Haute saison</div>
           <div class="tarif-months">Juillet – Août</div>
-          <div class="tarif-price">12 000</div>
+          <div class="tarif-price" id="tarifHauteAffiche">12 000</div>
           <div class="tarif-unit">DZD / nuit</div>
         </div>
         <div class="tarif basse">
           <div class="tarif-label">🌿 Basse saison</div>
           <div class="tarif-months">Reste de l'année</div>
-          <div class="tarif-price">9 000</div>
+          <div class="tarif-price" id="tarifBasseAffiche">9 000</div>
           <div class="tarif-unit">DZD / nuit</div>
         </div>
       </div>
@@ -1124,9 +1124,9 @@
     if (haute > 0 && basse > 0)
       texte = `🌞 ${haute} nuit(s) haute saison + 🌿 ${basse} nuit(s) basse saison`;
     else if (haute > 0)
-      texte = '🌞 Haute saison (Juillet–Août) — 12 000 DZD/nuit';
+      texte = `🌞 Haute saison (Juillet–Août) — ${TARIF_HAUTE.toLocaleString('fr-DZ')} DZD/nuit`;
     else
-      texte = '🌿 Basse saison — 9 000 DZD/nuit';
+      texte = `🌿 Basse saison — ${TARIF_BASSE.toLocaleString('fr-DZ')} DZD/nuit`;
 
     document.getElementById('recapSaison').textContent  = texte;
     document.getElementById('recapNuits').textContent   = nuits + ' nuit' + (nuits > 1 ? 's' : '');
@@ -1269,6 +1269,10 @@
         note.style.display = 'block';
       }
 
+      // Mettre à jour les tarifs affichés
+      document.getElementById('tarifHauteAffiche').textContent = TARIF_HAUTE.toLocaleString('fr-DZ');
+      document.getElementById('tarifBasseAffiche').textContent = TARIF_BASSE.toLocaleString('fr-DZ');
+
       // Mettre à jour la barre du bas
       document.getElementById('barAmount').textContent = `À partir de ${TARIF_BASSE.toLocaleString('fr-DZ')} DZD`;
     } catch(e) { datesReservees = []; }
@@ -1359,6 +1363,12 @@
       else if (!isRangeLibre(selDebut, ds)) {
         selDebut = ds; selFin = null;
       } else {
+        const nuits = Math.round((new Date(ds) - new Date(selDebut)) / 86400000);
+        if (nuits < minNuits) {
+          document.getElementById('selInfo').textContent =
+            `⚠️ Séjour minimum : ${minNuits} nuit${minNuits > 1 ? 's' : ''} (vous avez sélectionné ${nuits})`;
+          return;
+        }
         selFin = ds;
         document.getElementById('checkin').value  = selDebut;
         document.getElementById('checkout').value = selFin;

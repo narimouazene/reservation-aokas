@@ -1,7 +1,8 @@
-require('dotenv').config();
+const path    = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env') });
 const express = require('express');
 const cors    = require('cors');
-const path    = require('path');
+const rateLimit = require('express-rate-limit');
 const db      = process.env.MONGODB_URI ? require('./db-mongo') : require('./db');
 const { emailNouvelleReservation, emailConfirmationClient, emailChangementStatut } = require('./mailer');
 const { lireSettings, ecrireSettings } = require('./settings');
@@ -10,6 +11,23 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+// ─── Rate limiting ───────────────────────────────────────────
+const reservationLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5,                    // 5 réservations par IP
+  message: { erreur: 'Trop de demandes. Réessayez dans 15 minutes.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const adminLoginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,                   // 10 tentatives de login par IP
+  message: { erreur: 'Trop de tentatives. Réessayez dans 15 minutes.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
 // ─── Servir le frontend ────────────────────────────────────
 app.use(express.static(path.join(__dirname, '../frontend')));
@@ -33,9 +51,13 @@ function genRef() {
   return 'AOK-' + Date.now().toString(36).toUpperCase().slice(-6);
 }
 
+const ADMIN_KEY = (process.env.ADMIN_KEY || 'aokas2024').trim();
+console.log('🔑 Clé admin chargée :', ADMIN_KEY ? '***' + ADMIN_KEY.slice(-4) : '(VIDE!)');
+
 function adminCheck(req, res) {
-  const key = req.headers['x-admin-key'] || req.query.key;
-  if (key !== process.env.ADMIN_KEY) {
+  const key = (req.headers['x-admin-key'] || req.query.key || '').trim();
+  if (key !== ADMIN_KEY) {
+    console.log('❌ Tentative login échouée depuis', req.ip);
     res.status(401).json({ erreur: 'Accès non autorisé.' });
     return false;
   }
@@ -47,7 +69,7 @@ function adminCheck(req, res) {
 // ════════════════════════════════════════════════
 
 // POST /api/reservations ─ Soumettre une réservation
-app.post('/api/reservations', async (req, res) => {
+app.post('/api/reservations', reservationLimiter, async (req, res) => {
   try {
     const { nom, telephone, email, date_arrivee, date_depart, nb_personnes, message } = req.body;
 
@@ -68,7 +90,7 @@ app.post('/api/reservations', async (req, res) => {
     }
 
     // Vérifier disponibilité
-    const conflits = db.verifierDisponibilite({ date_arrivee, date_depart });
+    const conflits = await db.verifierDisponibilite({ date_arrivee, date_depart });
     if (conflits.length > 0) {
       return res.status(409).json({
         erreur: 'Ces dates sont déjà réservées.',
@@ -81,7 +103,7 @@ app.post('/api/reservations', async (req, res) => {
     const reference = genRef();
 
     // Sauvegarder en base
-    db.creerReservation({
+    await db.creerReservation({
       reference,
       nom:          nom.trim(),
       telephone:    telephone.trim(),
@@ -93,7 +115,8 @@ app.post('/api/reservations', async (req, res) => {
       prix_total,
     });
 
-    const reservation = db.toutesReservations().find(r => r.reference === reference);
+    const allRes = await db.toutesReservations();
+    const reservation = allRes.find(r => r.reference === reference);
 
     // Envoyer les emails (sans bloquer la réponse si ça échoue)
     Promise.all([
@@ -140,15 +163,25 @@ app.get('/api/disponible', async (req, res) => {
 // GET /api/admin/reservations
 app.get('/api/admin/reservations', async (req, res) => {
   if (!adminCheck(req, res)) return;
-  try { res.json(await db.toutesReservations()); }
-  catch { res.status(500).json({ erreur: 'Erreur serveur.' }); }
+  try {
+    res.json(await db.toutesReservations());
+  } catch (err) {
+    console.error('❌ Erreur /api/admin/reservations :', err.message);
+    res.json([]);
+  }
 });
 
-// GET /api/admin/stats
-app.get('/api/admin/stats', async (req, res) => {
+// GET /api/admin/stats (aussi utilisé comme login)
+app.get('/api/admin/stats', adminLoginLimiter, async (req, res) => {
   if (!adminCheck(req, res)) return;
-  try { res.json(await db.statistiques()); }
-  catch { res.status(500).json({ erreur: 'Erreur serveur.' }); }
+  try {
+    res.json(await db.statistiques());
+  } catch (err) {
+    console.error('❌ Erreur /api/admin/stats :', err.message);
+    // Retourner des stats vides plutôt qu'une erreur 500
+    // pour que le login admin fonctionne même si la DB est hors ligne
+    res.json({ total: 0, confirmees: 0, en_attente: 0, annulees: 0, revenus: 0 });
+  }
 });
 
 // PATCH /api/admin/reservations/:id  ─ Changer le statut
@@ -211,9 +244,14 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/index.html'));
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`\n✅ Serveur lancé sur http://localhost:${PORT}`);
-  console.log(`📋 Admin panel  : http://localhost:${PORT}/admin.html`);
-  console.log(`🔑 Clé admin    : ${process.env.ADMIN_KEY}\n`);
-});
+// ─── Démarrage local (ignoré sur Vercel) ─────────────────
+if (!process.env.VERCEL) {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`\n✅ Serveur lancé sur http://localhost:${PORT}`);
+    console.log(`📋 Admin panel  : http://localhost:${PORT}/admin.html`);
+    console.log(`🔑 Clé admin    : ****\n`);
+  });
+}
+
+module.exports = app;

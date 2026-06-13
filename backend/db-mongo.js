@@ -4,9 +4,26 @@ let connected = false;
 
 async function connect() {
   if (connected) return;
-  await mongoose.connect(process.env.MONGODB_URI);
-  connected = true;
+  const uri = (process.env.MONGODB_URI || '').trim();
+  if (!uri) throw new Error('MONGODB_URI non défini dans les variables d\'environnement.');
+  try {
+    await mongoose.connect(uri);
+    connected = true;
+    console.log('✅ Connecté à MongoDB');
+  } catch (err) {
+    console.error('❌ Connexion MongoDB échouée :', err.message);
+    throw err;
+  }
 }
+
+mongoose.connection.on('disconnected', () => {
+  connected = false;
+  console.warn('⚠️ MongoDB déconnecté — reconnexion au prochain appel');
+});
+
+mongoose.connection.on('error', (err) => {
+  console.error('❌ Erreur MongoDB :', err.message);
+});
 
 const schema = new mongoose.Schema({
   id:           { type: Number, unique: true },
