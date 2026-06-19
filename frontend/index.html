@@ -4,19 +4,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <title>Location Appartement Aokas – Béjaïa | Réservation en ligne</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
     :root {
-      --primary:      #0369a1;
-      --primary-dark: #075985;
-      --accent:       #f59e0b;
+      --primary:      #0f766e;
+      --primary-dark: #115e59;
+      --accent:       #d97706;
       --text:         #1e293b;
       --muted:        #64748b;
-      --light:        #f0f9ff;
+      --light:        #f0fdfa;
       --border:       #e2e8f0;
-      --success:      #10b981;
-      --error:        #ef4444;
+      --success:      #059669;
+      --error:        #dc2626;
       --wa:           #25D366;
       --radius:       14px;
     }
@@ -24,12 +28,21 @@
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
       color: var(--text);
       background: #f8fafc;
       line-height: 1.6;
-      padding-bottom: 88px; /* espace barre fixe mobile */
+      padding-bottom: 88px;
     }
+
+    h1, h2, h3, .bloc-title, .tarif-price, .modal h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+
+    /* Lucide icons */
+    .lucide { width: 20px; height: 20px; stroke-width: 1.75; flex-shrink: 0; }
+    .lucide-lg { width: 28px; height: 28px; }
+    .lucide-xl { width: 36px; height: 36px; }
 
     /* ═══════════ HEADER ═══════════ */
     header {
@@ -43,8 +56,8 @@
       padding: 13px 16px;
       display: flex; align-items: center; justify-content: space-between;
     }
-    .logo { font-size: 1rem; font-weight: 800; color: var(--primary); line-height: 1.2; }
-    .logo-sub { font-weight: 400; color: var(--muted); font-size: .8rem; display: block; }
+    .logo { font-family: 'Playfair Display', Georgia, serif; font-size: 1.1rem; font-weight: 800; color: var(--primary); line-height: 1.2; letter-spacing: -.3px; }
+    .logo-sub { font-family: 'DM Sans', system-ui, sans-serif; font-weight: 500; color: var(--muted); font-size: .75rem; display: flex; align-items: center; gap: 4px; margin-top: 1px; }
     .badge-dispo {
       background: var(--success); color: white;
       font-size: .72rem; font-weight: 700;
@@ -163,15 +176,15 @@
     /* ── Faits clés ── */
     .facts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
     .fact {
-      background: var(--light); border: 1px solid #bae6fd;
+      background: var(--light); border: 1px solid #99f6e4;
       border-radius: 12px; padding: 14px; text-align: center;
     }
-    .fact-ico { font-size: 1.6rem; margin-bottom: 4px; }
+    .fact-ico { margin-bottom: 6px; display: flex; justify-content: center; }
     .fact-val { font-size: 1rem; font-weight: 800; color: var(--primary); }
     .fact-lbl { font-size: .74rem; color: var(--muted); margin-top: 1px; }
 
     .terrace-card {
-      background: linear-gradient(135deg, #0ea5e9, #0369a1);
+      background: linear-gradient(135deg, #14b8a6, #0f766e);
       color: white; border-radius: var(--radius);
       padding: 16px; display: flex; align-items: center; gap: 14px;
     }
@@ -229,7 +242,7 @@
       background: #f8fafc; border: 1px solid var(--border);
       border-radius: 10px; font-size: .875rem;
     }
-    .equip-item .ico { font-size: 1.2rem; flex-shrink: 0; }
+    .equip-item .lucide { flex-shrink: 0; }
 
     /* ── Tarifs ── */
     .tarifs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
@@ -237,7 +250,7 @@
       border-radius: var(--radius); padding: 18px 14px; text-align: center;
     }
     .tarif.haute { background: linear-gradient(135deg, #b45309, #d97706); color: white; }
-    .tarif.basse { background: linear-gradient(135deg, #075985, #0369a1); color: white; }
+    .tarif.basse { background: linear-gradient(135deg, #115e59, #0f766e); color: white; }
     .tarif-label  { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; opacity: .8; margin-bottom: 4px; }
     .tarif-months { font-size: .78rem; opacity: .75; margin-bottom: 8px; }
     .tarif-price  { font-size: 1.75rem; font-weight: 900; line-height: 1; }
@@ -587,8 +600,8 @@
 <header>
   <div class="header-inner">
     <div class="logo">
-      🏠 Appartement Aokas
-      <span class="logo-sub">📍 Béjaïa, Algérie</span>
+      Aokas Résidence
+      <span class="logo-sub"><i data-lucide="map-pin" style="width:12px;height:12px;"></i> Béjaïa, Algérie</span>
     </div>
     <div class="badge-dispo">
       <span class="badge-dot"></span> Disponible
@@ -604,22 +617,21 @@
        onclick="openLightbox(0)" />
 
   <div class="gallery-gradient">
-    <h1>Appartement à Aokas 🌅</h1>
+    <h1>Appartement à Aokas</h1>
     <div class="sub">100 m² · 5 couchages · Double terrasse · Aokas, Béjaïa</div>
   </div>
 
   <button class="btn-all-photos" onclick="scrollToGallery()">
-    🖼️ Voir toutes les photos (15)
+    <i data-lucide="images" style="width:16px;height:16px;"></i> Toutes les photos
   </button>
 </div>
 
 <div class="thumbs-row" id="thumbsRow"></div>
 
-<!-- ═══ RATING ═══ -->
+<!-- ═══ INFOS BAR ═══ -->
 <div class="rating-bar">
-  <span class="stars">★★★★★</span>
-  <span class="rating-num">5,0</span>
-  <span>· Appartement de qualité · Hôte certifié</span>
+  <i data-lucide="shield-check" style="width:16px;height:16px;color:var(--primary);"></i>
+  <span>Réservation directe avec le propriétaire · Aucun intermédiaire</span>
 </div>
 
 <!-- ═══ CONTENU PRINCIPAL ═══ -->
@@ -630,31 +642,31 @@
 
     <!-- Présentation -->
     <div class="bloc">
-      <div class="bloc-title">🏠 L'appartement</div>
+      <div class="bloc-title"><i data-lucide="home" class="lucide" style="color:var(--primary);"></i> L'appartement</div>
       <div class="facts-grid">
         <div class="fact">
-          <div class="fact-ico">📐</div>
+          <div class="fact-ico"><i data-lucide="move" class="lucide-lg" style="color:var(--primary);"></i></div>
           <div class="fact-val">100 m²</div>
           <div class="fact-lbl">Superficie</div>
         </div>
         <div class="fact">
-          <div class="fact-ico">🛏️</div>
+          <div class="fact-ico"><i data-lucide="bed-double" class="lucide-lg" style="color:var(--primary);"></i></div>
           <div class="fact-val">5 couchages</div>
           <div class="fact-lbl">Capacité</div>
         </div>
         <div class="fact">
-          <div class="fact-ico">📍</div>
+          <div class="fact-ico"><i data-lucide="map-pin" class="lucide-lg" style="color:var(--primary);"></i></div>
           <div class="fact-val">Aokas</div>
           <div class="fact-lbl">10–20 km de Béjaïa</div>
         </div>
         <div class="fact">
-          <div class="fact-ico">🌅</div>
+          <div class="fact-ico"><i data-lucide="sun" class="lucide-lg" style="color:var(--primary);"></i></div>
           <div class="fact-val">Double</div>
           <div class="fact-lbl">Terrasse</div>
         </div>
       </div>
       <div class="terrace-card">
-        <div class="ico">🌅</div>
+        <div class="ico"><i data-lucide="sunrise" class="lucide-xl" style="color:white;"></i></div>
         <div>
           <h3>Double terrasse panoramique</h3>
           <p>Vue imprenable sur les montagnes de Kabylie et le village d'Aokas</p>
@@ -664,78 +676,78 @@
 
     <!-- Photos -->
     <div class="bloc" id="photoSection">
-      <div class="bloc-title">📸 Photos de l'appartement</div>
+      <div class="bloc-title"><i data-lucide="camera" class="lucide" style="color:var(--primary);"></i> Photos de l'appartement</div>
       <div class="photos-grid" id="photosGrid"></div>
     </div>
 
     <!-- Équipements -->
     <div class="bloc">
-      <div class="bloc-title">✨ Équipements</div>
+      <div class="bloc-title"><i data-lucide="sparkles" class="lucide" style="color:var(--primary);"></i> Équipements</div>
       <div class="equip-grid">
-        <div class="equip-item"><span class="ico">🛏️</span>5 couchages</div>
-        <div class="equip-item"><span class="ico">📐</span>100 m²</div>
-        <div class="equip-item"><span class="ico">🌅</span>Double terrasse</div>
-        <div class="equip-item"><span class="ico">🍳</span>Cuisine équipée</div>
-        <div class="equip-item"><span class="ico">🚿</span>Salle de bain</div>
-        <div class="equip-item"><span class="ico">🌡️</span>Climatisation</div>
-        <div class="equip-item"><span class="ico">📶</span>Wi-Fi inclus</div>
-        <div class="equip-item"><span class="ico">📺</span>Télévision</div>
-        <div class="equip-item"><span class="ico">🧺</span>Lave-linge</div>
-        <div class="equip-item"><span class="ico">🔒</span>Entrée autonome</div>
-        <div class="equip-item"><span class="ico">🚗</span>Parking</div>
-        <div class="equip-item"><span class="ico">🧹</span>Ménage inclus</div>
+        <div class="equip-item"><i data-lucide="bed-double" class="lucide" style="color:var(--primary);"></i>5 couchages</div>
+        <div class="equip-item"><i data-lucide="move" class="lucide" style="color:var(--primary);"></i>100 m²</div>
+        <div class="equip-item"><i data-lucide="sun" class="lucide" style="color:var(--primary);"></i>Double terrasse</div>
+        <div class="equip-item"><i data-lucide="cooking-pot" class="lucide" style="color:var(--primary);"></i>Cuisine équipée</div>
+        <div class="equip-item"><i data-lucide="shower-head" class="lucide" style="color:var(--primary);"></i>Salle de bain</div>
+        <div class="equip-item"><i data-lucide="snowflake" class="lucide" style="color:var(--primary);"></i>Climatisation</div>
+        <div class="equip-item"><i data-lucide="wifi" class="lucide" style="color:var(--primary);"></i>Wi-Fi inclus</div>
+        <div class="equip-item"><i data-lucide="tv" class="lucide" style="color:var(--primary);"></i>Télévision</div>
+        <div class="equip-item"><i data-lucide="washing-machine" class="lucide" style="color:var(--primary);"></i>Lave-linge</div>
+        <div class="equip-item"><i data-lucide="key-round" class="lucide" style="color:var(--primary);"></i>Entrée autonome</div>
+        <div class="equip-item"><i data-lucide="car" class="lucide" style="color:var(--primary);"></i>Parking</div>
+        <div class="equip-item"><i data-lucide="sparkles" class="lucide" style="color:var(--primary);"></i>Ménage inclus</div>
       </div>
     </div>
 
     <!-- Tarifs -->
     <div class="bloc">
-      <div class="bloc-title">💰 Tarifs</div>
+      <div class="bloc-title"><i data-lucide="tag" class="lucide" style="color:var(--primary);"></i> Tarifs</div>
       <div class="tarifs-grid">
         <div class="tarif haute">
-          <div class="tarif-label">🌞 Haute saison</div>
+          <div class="tarif-label">Haute saison</div>
           <div class="tarif-months">Juillet – Août</div>
           <div class="tarif-price" id="tarifHauteAffiche">12 000</div>
           <div class="tarif-unit">DZD / nuit</div>
         </div>
         <div class="tarif basse">
-          <div class="tarif-label">🌿 Basse saison</div>
+          <div class="tarif-label">Basse saison</div>
           <div class="tarif-months">Reste de l'année</div>
           <div class="tarif-price" id="tarifBasseAffiche">9 000</div>
           <div class="tarif-unit">DZD / nuit</div>
         </div>
       </div>
       <div class="tarif-note">
-        ℹ️ Le prix total est calculé automatiquement selon vos dates. Les nuits en juillet–août sont facturées au tarif haute saison.
+        <i data-lucide="info" style="width:16px;height:16px;flex-shrink:0;"></i> Le prix total est calculé automatiquement selon vos dates. Les nuits en juillet–août sont facturées au tarif haute saison.
       </div>
     </div>
 
     <!-- Règles -->
     <div class="bloc">
-      <div class="bloc-title">📋 Règles de la maison</div>
+      <div class="bloc-title"><i data-lucide="clipboard-list" class="lucide" style="color:var(--primary);"></i> Règles de la maison</div>
       <div class="rules-list">
-        <div class="rule"><span class="rule-ico">🕒</span><span>Arrivée à partir de <strong>14h00</strong> — Départ avant <strong>12h00</strong></span></div>
-        <div class="rule"><span class="rule-ico">🚭</span><span>Non-fumeurs à l'intérieur</span></div>
-        <div class="rule"><span class="rule-ico">👨‍👩‍👧‍👦</span><span>Maximum <strong>5 personnes</strong></span></div>
-        <div class="rule"><span class="rule-ico">🧹</span><span>Ménage de fin de séjour inclus</span></div>
-        <div class="rule"><span class="rule-ico">📵</span><span>Respect du voisinage après 23h</span></div>
-        <div class="rule"><span class="rule-ico">💳</span><span>Caution demandée à l'arrivée (remboursée au départ)</span></div>
+        <div class="rule"><span class="rule-ico"><i data-lucide="clock" class="lucide" style="color:var(--primary);"></i></span><span>Arrivée à partir de <strong>14h00</strong> — Départ avant <strong>12h00</strong></span></div>
+        <div class="rule"><span class="rule-ico"><i data-lucide="cigarette-off" class="lucide" style="color:var(--primary);"></i></span><span>Non-fumeurs à l'intérieur</span></div>
+        <div class="rule"><span class="rule-ico"><i data-lucide="users" class="lucide" style="color:var(--primary);"></i></span><span>Maximum <strong>5 personnes</strong></span></div>
+        <div class="rule"><span class="rule-ico"><i data-lucide="sparkles" class="lucide" style="color:var(--primary);"></i></span><span>Ménage de fin de séjour inclus</span></div>
+        <div class="rule"><span class="rule-ico"><i data-lucide="volume-x" class="lucide" style="color:var(--primary);"></i></span><span>Respect du voisinage après 23h</span></div>
+        <div class="rule"><span class="rule-ico"><i data-lucide="credit-card" class="lucide" style="color:var(--primary);"></i></span><span>Caution demandée à l'arrivée (remboursée au départ)</span></div>
       </div>
     </div>
 
     <!-- Localisation -->
     <div class="bloc">
-      <div class="bloc-title">📍 Localisation</div>
+      <div class="bloc-title"><i data-lucide="map-pin" class="lucide" style="color:var(--primary);"></i> Localisation</div>
       <div class="map-placeholder">
-        <div class="map-ico">🗺️</div>
+        <div class="map-ico"><i data-lucide="map" class="lucide-xl" style="color:var(--primary);"></i></div>
         <h3>Aokas — Wilaya de Béjaïa</h3>
         <p>Adresse exacte communiquée après confirmation de réservation</p>
       </div>
       <div class="nearby-list">
-        <div class="nearby-item">🏙️ <span><strong>10 à 20 km</strong> du centre de Béjaïa</span></div>
-        <div class="nearby-item">🌊 <span>Plage d'Aokas à <strong>quelques minutes</strong> à pied</span></div>
-        <div class="nearby-item">🛒 <span>Commerces et marché <strong>à proximité</strong></span></div>
-        <div class="nearby-item">🚌 <span>Transport en commun vers Béjaïa <strong>accessible</strong></span></div>
-        <div class="nearby-item">🏥 <span>Clinique et pharmacie <strong>dans le village</strong></span></div>
+        <div class="nearby-item"><i data-lucide="building-2" class="lucide" style="color:var(--primary);"></i> <span><strong>10 à 20 km</strong> du centre de Béjaïa</span></div>
+        <div class="nearby-item"><i data-lucide="waves" class="lucide" style="color:var(--primary);"></i> <span>Plage d'Aokas à <strong>quelques minutes</strong> à pied</span></div>
+        <div class="nearby-item"><i data-lucide="shopping-bag" class="lucide" style="color:var(--primary);"></i> <span>Commerces et marché <strong>à proximité</strong></span></div>
+        <div class="nearby-item"><i data-lucide="bus" class="lucide" style="color:var(--primary);"></i> <span>Transport en commun vers Béjaïa <strong>accessible</strong></span></div>
+        <div class="nearby-item"><i data-lucide="cross" class="lucide" style="color:var(--primary);"></i> <span>Clinique et pharmacie <strong>dans le village</strong></span></div>
       </div>
     </div>
 
@@ -744,7 +756,7 @@
   <!-- ─── COLONNE DROITE — FORMULAIRE ─── -->
   <div class="col-right">
     <div class="bloc" id="reservationBloc">
-      <div class="bloc-title">📅 Réserver cet appartement</div>
+      <div class="bloc-title"><i data-lucide="calendar" class="lucide" style="color:var(--primary);"></i> Réserver cet appartement</div>
 
       <form id="bookForm" novalidate autocomplete="on">
 
@@ -847,7 +859,7 @@
         </div>
 
         <button type="submit" class="btn-submit" id="submitBtn">
-          ✅ Envoyer ma demande de réservation
+          Envoyer ma demande de réservation
         </button>
 
         <div class="divider-or">ou contacter directement</div>
@@ -860,7 +872,7 @@
           Contacter sur WhatsApp
         </a>
 
-        <div class="secure-note">🔒 Aucun paiement en ligne — Confirmation directe par l'hôte</div>
+        <div class="secure-note"><i data-lucide="lock" style="width:14px;height:14px;"></i> Aucun paiement en ligne — Confirmation directe par l'hôte</div>
 
       </form>
     </div>
@@ -905,12 +917,12 @@
 <div class="overlay" id="overlay">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-ico">🎉</div>
+    <div class="modal-ico"><i data-lucide="check-circle" class="lucide-xl" style="color:var(--success);width:56px;height:56px;"></i></div>
     <h2>Demande envoyée !</h2>
     <p>Votre demande de réservation a bien été reçue.</p>
     <div class="modal-ref" id="bookRef">—</div>
     <div class="modal-info">
-      📞 Nous vous contacterons dans les <strong>24 heures</strong> par téléphone ou WhatsApp pour confirmer votre séjour.
+      <i data-lucide="phone" style="width:16px;height:16px;flex-shrink:0;"></i> Nous vous contacterons dans les <strong>24 heures</strong> par téléphone ou WhatsApp pour confirmer votre séjour.
     </div>
     <button class="btn-modal-close" onclick="closeModal()">Parfait, merci !</button>
   </div>
@@ -1122,11 +1134,11 @@
 
     let texte = '';
     if (haute > 0 && basse > 0)
-      texte = `🌞 ${haute} nuit(s) haute saison + 🌿 ${basse} nuit(s) basse saison`;
+      texte = `${haute} nuit(s) haute saison + ${basse} nuit(s) basse saison`;
     else if (haute > 0)
-      texte = `🌞 Haute saison (Juillet–Août) — ${TARIF_HAUTE.toLocaleString('fr-DZ')} DZD/nuit`;
+      texte = `Haute saison (Juillet–Août) — ${TARIF_HAUTE.toLocaleString('fr-DZ')} DZD/nuit`;
     else
-      texte = `🌿 Basse saison — ${TARIF_BASSE.toLocaleString('fr-DZ')} DZD/nuit`;
+      texte = `Basse saison — ${TARIF_BASSE.toLocaleString('fr-DZ')} DZD/nuit`;
 
     document.getElementById('recapSaison').textContent  = texte;
     document.getElementById('recapNuits').textContent   = nuits + ' nuit' + (nuits > 1 ? 's' : '');
@@ -1179,7 +1191,7 @@
 
     const btn = document.getElementById('submitBtn');
     btn.disabled = true;
-    btn.textContent = '⏳ Envoi en cours…';
+    btn.textContent = 'Envoi en cours…';
 
     try {
       const reponse = await fetch('/api/reservations', {
@@ -1217,7 +1229,7 @@
       console.error(err);
     } finally {
       btn.disabled = false;
-      btn.textContent = '✅ Envoyer ma demande de réservation';
+      btn.textContent = 'Envoyer ma demande de réservation';
     }
   });
 
@@ -1388,11 +1400,15 @@
       el.textContent = `Arrivée : ${new Date(selDebut).toLocaleDateString('fr-DZ',{day:'numeric',month:'long'})} — Cliquez sur la date de départ`;
     } else {
       const n = Math.round((new Date(selFin)-new Date(selDebut))/86400000);
-      el.textContent = `✅ ${n} nuit${n>1?'s':''} sélectionnée${n>1?'s':''}`;
+      el.textContent = `${n} nuit${n>1?'s':''} sélectionnée${n>1?'s':''}`;
+
     }
   }
 
   initCalendrier();
+
+  // Initialiser les icônes Lucide
+  if (typeof lucide !== 'undefined') lucide.createIcons();
 </script>
 </body>
 </html>
